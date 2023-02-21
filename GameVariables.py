@@ -1,5 +1,10 @@
 COLORS = ['W','R','O','G','B','Y'] # White, Red, Orange, Green, Blue, Yellow
+
 MAX_NUMBER_OF_GUESSED_COLORS = 4
 CORRECTLY_GUESSED_NUMBER = 4
+CORRECT = 1
+WRONG = 0
+
+
 START_GUESS_COUNT = 1
 MAX_GUESSES = 10

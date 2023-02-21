@@ -5,19 +5,16 @@ import GameVariables as game_vars
 
 #Generate code to guess
 def generate_code():
-    code = []
     code = [random.choice(game_vars.COLORS) for i in range(game_vars.MAX_NUMBER_OF_GUESSED_COLORS)]
     print("{}".format(code))
     return code
 
 #Check if correct guess entered
 def get_color_input():
-    guess = input()
-    guess = input_fix(guess)
+    guess = input_fix(input())
     while (len(guess) != game_vars.MAX_NUMBER_OF_GUESSED_COLORS or check_input_errors(guess) is False):
         print("Bad input, please re-enter: ")
-        guess = input()
-        guess = input_fix(guess)
+        guess = input_fix(input())
 
     return guess
 
@@ -33,14 +30,12 @@ def check_input_errors(guess):
 #Fix input
 def input_fix(guess):
     guess = guess.upper().replace(" ", "").split()[0]
-    guess = [*guess]
-
-    return guess
+    return [*guess]
 
 #Check how many correct and incorrect guessed
 def check_correct_incorrect(guess,code):
-    return ([guess[i] == code[i] for i in range(game_vars.MAX_NUMBER_OF_GUESSED_COLORS)].count(True),
-            [guess[i] == code[i] for i in range(game_vars.MAX_NUMBER_OF_GUESSED_COLORS)].count(False))
+    answers = [guess[i] == code[i] for i in range(game_vars.MAX_NUMBER_OF_GUESSED_COLORS)]
+    return (answers.count(True), answers.count(False))
 
 #Check if the guess is correct
 def check_win(guess,guesses):
@@ -48,7 +43,7 @@ def check_win(guess,guesses):
         print("Congratulations! It took you {} guesses, you win!".format(guesses))
         return True
     else:
-        print("{} Correct | {} Incorrect".format(guess[0], guess[1]))
+        print("{} Correct | {} Incorrect".format(guess[game_vars.CORRECT], guess[game_vars.WRONG]))
         return False
 
 #Game loop
