@@ -6,9 +6,7 @@ import GameVariables as game_vars
 #Generate code to guess
 def generate_code():
     code = []
-    for i in range(game_vars.MAX_NUMBER_OF_GUESSED_COLORS):
-        x = random.choice(game_vars.COLORS)
-        code.append(x)
+    code = [random.choice(game_vars.COLORS) for i in range(game_vars.MAX_NUMBER_OF_GUESSED_COLORS)]
     print("{}".format(code))
     return code
 
@@ -39,31 +37,18 @@ def input_fix(guess):
 
     return guess
 
-#Check amount of correct colors guessed
-def check_correct_count(guess,code):
-    correct = 0
-    for i in range(game_vars.MAX_NUMBER_OF_GUESSED_COLORS):
-        if guess[i] == code[i]:
-            correct += 1
-
-    return correct
-
-#Check amount of incorrect colors guessed
-def check_incorrect_count(guess,code):
-    incorrect = 0
-    for i in range(game_vars.MAX_NUMBER_OF_GUESSED_COLORS):
-        if guess[i] != code[i]:
-            incorrect += 1
-
-    return incorrect
+#Check how many correct and incorrect guessed
+def check_correct_incorrect(guess,code):
+    return ([guess[i] == code[i] for i in range(game_vars.MAX_NUMBER_OF_GUESSED_COLORS)].count(True),
+            [guess[i] == code[i] for i in range(game_vars.MAX_NUMBER_OF_GUESSED_COLORS)].count(False))
 
 #Check if the guess is correct
-def check_win(correct,incorrect,guesses):
-    if correct == 4:
+def check_win(guess,guesses):
+    if guess[0] == game_vars.CORRECTLY_GUESSED_NUMBER:
         print("Congratulations! It took you {} guesses, you win!".format(guesses))
         return True
     else:
-        print("{} Correct | {} Incorrect".format(correct, incorrect))
+        print("{} Correct | {} Incorrect".format(guess[0], guess[1]))
         return False
 
 #Game loop
@@ -72,9 +57,9 @@ def guess_loop(code):
     while (guesses < game_vars.MAX_GUESSES):
         print("Enter your guess({}): ".format(guesses))
         guess = get_color_input()
-        guesses += 1
-        if check_win(check_correct_count(guess, code),check_incorrect_count(guess, code),guess,code,guesses):
+        if check_win(check_correct_incorrect(guess,code),guesses):
             break
+        guesses += 1
 
 
 if __name__ == '__main__':
